@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { neon } from "@neondatabase/serverless";
+import "dotenv/config.js"
+
 const app = express();
 
 app.use(cors());
