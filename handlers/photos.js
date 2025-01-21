@@ -14,15 +14,11 @@ exports.photos = async (req, res) => {
         `;
 
     if (!photo) {
-      return NextResponse.json({ error: "Photo not found" }, { status: 404 });
+      res.status(404).send("Photo not found ");
     }
 
-    return NextResponse.json(photo);
+    res.status(200).send(burgers);
   } catch (error) {
-    console.error("Error fetching photo:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    res.status(500).send("Error Fetching Photo ");
   }
 };
