@@ -17,7 +17,7 @@ exports.photos = async (req, res) => {
       res.status(404).send("Photo not found ");
     }
 
-    res.status(200).send(burgers);
+    res.status(200).send(photo);
   } catch (error) {
     res.status(500).send("Error Fetching Photo ");
   }
