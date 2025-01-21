@@ -13,10 +13,10 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
-app.get("/users", async (req, res) => {
+app.get("/users/id=:id", async (req, res) => {
   try {
     const users = await sql`
-        SELECT * from users
+        SELECT * from users WHERE id = ${req.params.id}
       `;
 
     if (!users) {
