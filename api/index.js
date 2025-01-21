@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { neon } from "@neondatabase/serverless";
-import "dotenv/config.js"
+import "dotenv/config.js";
 
 const app = express();
 
@@ -13,25 +13,20 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
-app.get("/photos/id=:id", async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
-    const photoId = req.params.id;
-    const [photo] = await sql`
-        SELECT p.id, p.title, p.description, p.file_url, p.created_at, p.album_id,
-               a.title as album_title
-        FROM photos p
-        JOIN albums a ON p.album_id = a.id
-        WHERE p.id = ${photoId}
+    const users = await sql`
+        SELECT * from users
       `;
 
-    if (!photo) {
+    if (!users) {
       return res.status(404).json({ error: "Photo not found" });
     }
 
-    res.status(200).json(photo);
+    res.status(200).json(users);
   } catch (error) {
-    console.error("Error fetching photo:", error);
-    res.status(500).json({ error: "Error fetching photo" });
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Error fetching users" });
   }
 });
 
