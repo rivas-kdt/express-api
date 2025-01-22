@@ -28,7 +28,6 @@ export const login = async (req, res) => {
       expiresIn: "1h",
     });
     res.cookie("jwt", token, {
-      httpOnly: true,
       maxAge: 60 * 60 * 1000,
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "Strict",
