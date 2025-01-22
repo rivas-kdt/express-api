@@ -1,8 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import "dotenv";
-dotenv.config()
+import 'dotenv/config'
 
 const sql = neon(process.env.DATABASE_URL);
 

@@ -1,9 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 import multer from "multer";
-import dotenv from "dotenv";
+import 'dotenv/config'
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
-dotenv.config()
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
