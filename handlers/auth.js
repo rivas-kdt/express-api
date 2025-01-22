@@ -40,7 +40,7 @@ exports.user = async (req, res) => {
       res.status(401).json("Unauthenticated");
     }
     const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
-    const { password, ...data } = await user.toJson();
+    const { password, ...data } = user
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json("Error");
