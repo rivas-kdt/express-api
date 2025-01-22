@@ -15,11 +15,12 @@ import {
 } from "../handlers/albums.js";
 import { login, logout, user } from "../handlers/auth.js";
 import cookieParser from "cookie-parser";
-import { bodyparser } from "body-parser";
+import bodyParser from 'body-parser';
 
 const app = express();
 
-app.use(bodyparser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
