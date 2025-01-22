@@ -1,8 +1,11 @@
 import { neon } from "@neondatabase/serverless";
+import multer from "multer";
 import "dotenv/config.js";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const url =
   "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
 const sql = neon(process.env.DATABASE_URL || url);
@@ -107,17 +110,16 @@ export const postAlbumPhoto = async (req, res) => {
     res.status(401).json("Unauthenticated");
   }
   const id = claims.id;
-  
-  const formData = await req.formData();
-  const file = formData.get("file");
-  const title = formData.get("title");
-  const description = formData.get("description");
-  const blob = await put(`photos/${id}/${file.name}`, file, {
+
+  const { file } = req;
+  const { title, description } = req.body;
+  console.log(file)
+  const blob = await put(`photos/${id}/${file.originalname}`, file, {
     access: "public",
   });
   const result = await sql`
   INSERT INTO photos (user_id, title, description, file_url, original_filename, file_size, content_type)
-  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${file.name}, ${file.size}, ${file.type})
+  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${file.originalname}, ${file.size}, ${file.type})
   RETURNING id, title, description, file_url, created_at
 `;
   await sql`
