@@ -8,6 +8,21 @@ exports.photos = async (req, res) => {
     const photos = await sql`SELECT * FROM photos`;
 
     if (!photos) {
+      return res.status(404).json({ error: "Photos not found" });
+    }
+
+    res.status(200).json(photos);
+  } catch (error) {
+    console.error("Error fetching photos:", error);
+    res.status(500).json({ error: "Error fetching photos" });
+  }
+};
+
+exports.photosByID = async (req, res) => {
+  try {
+    const photos = await sql`SELECT * FROM photos WHERE id=${req.params.id}`;
+
+    if (!photos) {
       return res.status(404).json({ error: "Photo not found" });
     }
 
@@ -15,5 +30,42 @@ exports.photos = async (req, res) => {
   } catch (error) {
     console.error("Error fetching photo:", error);
     res.status(500).json({ error: "Error fetching photo" });
+  }
+};
+
+exports.photosByAlbum = async (req, res) => {
+  try {
+    const photos = await sql`
+    SELECT p.id, p.title, p.description, p.file_url, p.created_at, 
+    a.title as album_title
+      FROM photos p
+      JOIN album_photos ap ON ap.photo_id = p.id
+      JOIN albums a ON a.id = ap.album_id
+      WHERE a.id =${req.params.id}`;
+
+    if (!photos) {
+      return res.status(404).json({ error: "Photos in album not found" });
+    }
+
+    res.status(200).json(photos);
+  } catch (error) {
+    console.error("Error fetching photos:", error);
+    res.status(500).json({ error: "Error fetching photos" });
+  }
+};
+
+exports.photosByUser = async (req, res) => {
+  try {
+    const photos =
+      await sql`SELECT * FROM photos WHERE user_id =${req.params.id}`;
+
+    if (!photos) {
+      return res.status(404).json({ error: "Photos in user not found" });
+    }
+
+    res.status(200).json(photos);
+  } catch (error) {
+    console.error("Error fetching photos:", error);
+    res.status(500).json({ error: "Error fetching photos" });
   }
 };
