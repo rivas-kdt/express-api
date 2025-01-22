@@ -114,10 +114,10 @@ export const postAlbumPhoto = async (req, res) => {
 
   const img = req.file;
   console.log(img)
-  const name = img.originalname || "try"
+  const name =  "try"
   const { title, description } = req.body;
 
-  const blob = await put(`photos/${id}/${name}`, file, {
+  const blob = await put(`photos/${id}/${name}`, img, {
     access: "public",
   });
   const result = await sql`
