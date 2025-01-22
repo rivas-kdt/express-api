@@ -15,15 +15,7 @@ exports.login = async (req, res) => {
       res.status(404).json("Password does not match!");
     }
 
-    const user = users[0];
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
-
-    if (!passwordMatch) {
-      res.status(404).json("Password does not match!");
-    }
-
-    const token = jwt.sign({ id: users.id }, process.env.JWT_SECRET);
-    res.status(200).json(token);
+    res.status(200).json(email);
   } catch (error) {
     res.status(500).json("Error");
   }
