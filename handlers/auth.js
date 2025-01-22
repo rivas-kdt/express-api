@@ -35,7 +35,13 @@ exports.login = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     const cookie = req.cookies["jwt"];
-    res.status(200).json(cookie);
+    const claims = jwt.verify(cookie, process.env.JWT_SECRET);
+    if (!claims) {
+      res.status(401).json("Unauthenticated");
+    }
+    const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json("Error");}
+    res.status(500).json("Error");
+  }
 };
