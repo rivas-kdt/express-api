@@ -20,7 +20,7 @@ exports.photos = async (req, res) => {
 
 exports.photosByID = async (req, res) => {
   try {
-    const photos = await sql`SELECT * FROM photos WHERE id=${req.params.id}`;
+    const photos = await sql`SELECT * FROM photos WHERE id='${req.params.id}'`;
 
     if (!photos) {
       return res.status(404).json({ error: "Photo not found" });
