@@ -41,7 +41,7 @@ exports.user = async (req, res) => {
     }
     const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
     const { password, ...data } = user
-    res.status(200).json(data);
+    res.status(200).json(data || user);
   } catch (error) {
     res.status(500).json("Error");
   }
