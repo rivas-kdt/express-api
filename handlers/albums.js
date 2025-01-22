@@ -109,9 +109,9 @@ export const postAlbumPhoto = async (req, res) => {
   const id = claims.id;
   
   const formData = await req.formData();
-  const file = formData("file");
-  const title = formData("title");
-  const description = formData("description");
+  const file = formData.get("file");
+  const title = formData.get("title");
+  const description = formData.get("description");
   const blob = await put(`photos/${id}/${file.name}`, file, {
     access: "public",
   });
