@@ -104,6 +104,7 @@ export const albumPhotos = async (req, res) => {
 
 export const postAlbumPhoto = async (req, res) => {
   upload.single("file");
+  console.log(file)
   const albumId = req.params.id;
   const cookie = req.cookies["jwt"];
   const claims = jwt.verify(cookie, process.env.JWT_SECRET);
@@ -115,12 +116,12 @@ export const postAlbumPhoto = async (req, res) => {
   const file = req.file;
   const { title, description } = req.body;
 
-  const blob = await put(`photos/${id}/${file.originalname}`, file, {
+  const blob = await put(`photos/${id}/${file.name}`, file, {
     access: "public",
   });
   const result = await sql`
   INSERT INTO photos (user_id, title, description, file_url, original_filename, file_size, content_type)
-  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${file.originalname}, ${file.size}, ${file.mimetype})
+  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${file.name}, ${file.size}, ${file.mimetype})
   RETURNING id, title, description, file_url, created_at
 `;
   await sql`
