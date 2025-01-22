@@ -120,12 +120,13 @@ export const postAlbumPhoto = async (req, res) => {
   const imageName = `${id}_${image.originalname}`;
   const { title, description } = req.body;
 
-  const blob = await put(`photos/${id}/${imageName}`, img, {
+  const blob = await put(`photos/${id}/${imageName}`, image, {
+    body: file.buffer,
     access: "public",
   });
   const result = await sql`
   INSERT INTO photos (user_id, title, description, file_url, original_filename, file_size, content_type)
-  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${imageName}, ${img.size}, ${img.mimetype})
+  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${imageName}, ${image.size}, ${image.mimetype})
   RETURNING id, title, description, file_url, created_at
 `;
   await sql`
