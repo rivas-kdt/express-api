@@ -29,7 +29,7 @@ export const login = async (req, res) => {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
-      sameSite: "Strict",
+      sameSite: "None",
     });
     res.status(200).json("Success!");
   } catch (error) {
