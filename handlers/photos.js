@@ -1,9 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config.js";
 
-const sql = neon(process.env.DATABASE_URL);
+const url = "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+const sql = neon(process.env.DATABASE_URL || url);
 
-exports.photos = async (req, res) => {
+export const photos = async (req, res) => {
   try {
     const photos = await sql`SELECT * FROM photos`;
 
@@ -18,7 +19,7 @@ exports.photos = async (req, res) => {
   }
 };
 
-exports.photosByID = async (req, res) => {
+export const photosByID = async (req, res) => {
   try {
     const photos = await sql`SELECT * FROM photos WHERE id=${req.params.id}`;
 
@@ -33,7 +34,7 @@ exports.photosByID = async (req, res) => {
   }
 };
 
-exports.photosByAlbum = async (req, res) => {
+export const photosByAlbum = async (req, res) => {
   try {
     const photos = await sql`
     SELECT p.id, p.title, p.description, p.file_url, p.created_at, 
@@ -54,7 +55,7 @@ exports.photosByAlbum = async (req, res) => {
   }
 };
 
-exports.photosByUser = async (req, res) => {
+export const photosByUser = async (req, res) => {
   try {
     const photos =
       await sql`SELECT * FROM photos WHERE user_id =${req.params.id}`;

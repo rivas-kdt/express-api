@@ -1,9 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config.js";
 
-const sql = neon(process.env.DATABASE_URL);
+const url = "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+const sql = neon(process.env.DATABASE_URL || url);
 
-exports.albums = async (req, res) => {
+export const albums = async (req, res) => {
   try {
     const albums = await sql`SELECT * FROM albums`;
 
@@ -17,7 +18,7 @@ exports.albums = async (req, res) => {
   }
 };
 
-exports.albumByID = async (req, res) => {
+export const albumByID = async (req, res) => {
   try {
     const albums = await sql`SELECT * FROM albums WHERE id = ${req.params.id}`;
 
@@ -31,7 +32,7 @@ exports.albumByID = async (req, res) => {
   }
 };
 
-exports.albumByUser = async (req, res) => {
+export const albumByUser = async (req, res) => {
   try {
     const albums =
       await sql`SELECT * FROM albums WHERE user_id = ${req.params.id}`;
@@ -46,7 +47,7 @@ exports.albumByUser = async (req, res) => {
   }
 };
 
-exports.albumPhotos = async (req, res) => {
+export const albumPhotos = async (req, res) => {
   try {
     const [album] = await sql`
     SELECT id, title, description, is_public, created_at, user_id, cover_photo_id
