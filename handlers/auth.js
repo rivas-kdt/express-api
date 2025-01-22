@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
       res.status(404).json("Password does not match!");
     }
 
-    res.status(200).json(email);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json("Error");
   }
