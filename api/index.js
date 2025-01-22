@@ -6,7 +6,7 @@ import {
   photosByAlbum,
   photosByUser,
 } from "../handlers/photos.js";
-import { albums, albumByID, albumByUser, albumPhotos} from "../handlers/albums.js"
+import { albums, albumByID, albumByUser, albumPhotos, postAlbumPhoto} from "../handlers/albums.js"
 import { login, user } from "../handlers/auth.js"
 import cookieParser from "cookie-parser"
 
@@ -27,6 +27,8 @@ app.get("/photos", photos);
 app.get("/photos/id=:id", photosByID);
 app.get("/photos/album=:id", photosByAlbum);
 app.get("/photos/user=:id", photosByUser);
+
+app.post("/try/id=:id", postAlbumPhoto)
 
 app.get("/albums", albums);
 app.get("/albums/id=:id", albumByID);
