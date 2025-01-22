@@ -6,6 +6,7 @@ import {
   photosByAlbum,
   photosByUser,
 } from "../handlers/photos";
+import { albums, albumByID, albumByUser} from "../handlers/albums"
 
 const app = express();
 
