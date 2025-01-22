@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config.js";
 
-const url = "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+const url =
+  "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
 const sql = neon(process.env.DATABASE_URL || url);
 
 export const login = async (req, res) => {
@@ -41,8 +42,17 @@ export const user = async (req, res) => {
       res.status(401).json("Unauthenticated");
     }
     const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
-    const { password_hash, ...data } = user[0]
+    const { password_hash, ...data } = user[0];
     res.status(200).json(data || user);
+  } catch (error) {
+    res.status(401).json("Unauthenticated");
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.cookie("jwt", { maxAge: 0 });
+    res.status(200).json("Logged out successfully!");
   } catch (error) {
     res.status(500).json("Error");
   }

@@ -1,7 +1,9 @@
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config.js";
+import { put } from "@vercel/blob";
 
-const url = "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+const url =
+  "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
 const sql = neon(process.env.DATABASE_URL || url);
 
 export const albums = async (req, res) => {
@@ -46,7 +48,7 @@ export const albumByUser = async (req, res) => {
     res.status(500).json({ error: "Error Fetching User's Albums" });
   }
 };
-
+//used in app
 export const albumPhotos = async (req, res) => {
   try {
     const [album] = await sql`
@@ -94,4 +96,30 @@ export const albumPhotos = async (req, res) => {
 
     res.status(200).json({ ...album, photos: photosWithDetails });
   } catch (error) {}
+};
+
+export const postAlbumPhoto = async (req, res) => {
+  const albumId = req.params.id;
+  const cookie = req.cookies["jwt"];
+  const claims = jwt.verify(cookie, process.env.JWT_SECRET);
+  if (!claims) {
+    res.status(401).json("Unauthenticated");
+  }
+  const id = claims.id;
+  const file = req.body.file;
+  const title = req.body.title;
+  const description = req.body.description;
+  const blob = await put(`photos/${id}/${file.name}`, file, {
+    access: "public",
+  });
+  const result = await sql`
+  INSERT INTO photos (user_id, title, description, file_url, original_filename, file_size, content_type)
+  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${file.name}, ${file.size}, ${file.type})
+  RETURNING id, title, description, file_url, created_at
+`;
+  await sql`
+    INSERT INTO album_photos (album_id, photo_id)
+    VALUES (${albumId}, ${result[0].id})
+  `;
+  res.status(200).json(result[0]);
 };
