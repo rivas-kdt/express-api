@@ -50,7 +50,7 @@ exports.albumPhotos = async (req, res) => {
   try {
     const [album] = await sql`
     SELECT id, title, description, is_public, created_at, user_id, cover_photo_id
-    FROM albums WHERE id = ${id}`;
+    FROM albums WHERE id = ${req.params.id}`;
 
     const photos = await sql`
     SELECT p.id, p.title, p.description, p.file_url, p.created_at, p.thumbnail_url, p.original_filename, p.file_size, p.width, p.height, p.content_type
@@ -63,13 +63,13 @@ exports.albumPhotos = async (req, res) => {
     SELECT pt.photo_id, t.name
     FROM photo_tags pt
     JOIN tags t ON pt.tag_id = t.id
-    WHERE pt.photo_id IN (SELECT p.id FROM photos p JOIN album_photos ap ON p.id = ap.photo_id WHERE ap.album_id = ${id})`;
+    WHERE pt.photo_id IN (SELECT p.id FROM photos p JOIN album_photos ap ON p.id = ap.photo_id WHERE ap.album_id = ${req.params.id})`;
 
     const locations = await sql`
     SELECT pl.photo_id, l.name, l.latitude, l.longitude
     FROM photo_locations pl
     JOIN locations l ON pl.location_id = l.id
-    WHERE pl.photo_id IN (SELECT p.id FROM photos p JOIN album_photos ap ON p.id = ap.photo_id WHERE ap.album_id = ${id})`;
+    WHERE pl.photo_id IN (SELECT p.id FROM photos p JOIN album_photos ap ON p.id = ap.photo_id WHERE ap.album_id = ${req.params.id})`;
 
     const photosWithDetails = photos.map((photo) => {
       // Fetch associated tags
