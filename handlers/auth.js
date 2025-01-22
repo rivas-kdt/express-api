@@ -9,7 +9,7 @@ exports.login = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    const users = await sql`SELECT * FROM users WHERE email = '${email}'`;
+    const users = await sql`SELECT * FROM users WHERE email = ${email}`;
 
     if (users.length === 0) {
       res.status(404).json("Password does not match!");
