@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import multer from "multer";
-import "dotenv";
+import dotenv from "dotenv";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
 dotenv.config()
