@@ -21,6 +21,10 @@ app.get("/photos/id=:id", photosByID);
 app.get("/photos/album=:id", photosByAlbum);
 app.get("/photos/user=:id", photosByUser);
 
+app.get("/albums", albums);
+app.get("/albums/id=:id", albumByID);
+app.get("/albums/user=:id", albumByUser);
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
