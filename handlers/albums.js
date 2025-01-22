@@ -107,9 +107,11 @@ export const postAlbumPhoto = async (req, res) => {
     res.status(401).json("Unauthenticated");
   }
   const id = claims.id;
-  const file = req.body.file;
-  const title = req.body.title;
-  const description = req.body.description;
+  
+  const formData = await req.formData();
+  const file = formData("file");
+  const title = formData("title");
+  const description = formData("description");
   const blob = await put(`photos/${id}/${file.name}`, file, {
     access: "public",
   });
