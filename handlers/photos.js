@@ -1,8 +1,8 @@
 import { neon } from "@neondatabase/serverless";
-import "dotenv/config.js";
+import "dotenv";
+dotenv.config()
 
-const url = "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
-const sql = neon(process.env.DATABASE_URL || url);
+const sql = neon(process.env.DATABASE_URL);
 
 export const photos = async (req, res) => {
   try {

@@ -1,14 +1,13 @@
 import { neon } from "@neondatabase/serverless";
 import multer from "multer";
-import "dotenv/config.js";
+import "dotenv";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
+dotenv.config()
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-const url =
-  "postgres://neondb_owner:qTW3gjS8ltVk@ep-wild-queen-a1lj8262-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
-const sql = neon(process.env.DATABASE_URL || url);
+const sql = neon(process.env.DATABASE_URL);
 
 export const albums = async (req, res) => {
   try {

@@ -18,7 +18,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3000", // Frontend URL
+  origin: "https://neon-photo-ad.vercel.app/", // Frontend URL
   credentials: true, // Allow cookies to be sent
 };
 
@@ -28,7 +28,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-app.listen(3001, () => console.log("Server ready on port 3001."));
+app.listen(5000, () => console.log("Server ready on http://localhost:5000."));
 
 app.post("/login", login);
 app.post("/logout", logout);
