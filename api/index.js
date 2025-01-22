@@ -25,6 +25,7 @@ app.get("/photos/user=:id", photosByUser);
 app.get("/albums", albums);
 app.get("/albums/id=:id", albumByID);
 app.get("/albums/user=:id", albumByUser);
+app.get("/albumsp/id=:id", albumPhotos);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
