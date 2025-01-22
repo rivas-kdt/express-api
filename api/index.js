@@ -17,9 +17,9 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
 app.get("/photos", photos);
-app.get("/photos?id=:id", photosByID);
-app.get("/photos?album=:id", photosByAlbum);
-app.get("/photos?user=:id", photosByUser);
+app.get("/photos/id=:id", photosByID);
+app.get("/photos/album=:id", photosByAlbum);
+app.get("/photos/user=:id", photosByUser);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
