@@ -10,6 +10,7 @@ exports.login = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const users = await sql`SELECT * FROM users WHERE email = '${email}'`;
+    
     if (users.length === 0) {
       return NextResponse.json(
         { error: "Invalid credentials" },
