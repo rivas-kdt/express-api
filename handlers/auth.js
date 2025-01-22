@@ -25,9 +25,6 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    if(!token){
-        res.status(404).json("Can't Generate Token")
-    }
     res.status(200).json(token);
   } catch (error) {
     res.status(500).json("Error");
