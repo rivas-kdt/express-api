@@ -15,17 +15,15 @@ import {
 } from "../handlers/albums.js";
 import { login, logout, user } from "../handlers/auth.js";
 import cookieParser from "cookie-parser";
-import bodyParser from 'body-parser';
 
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:3000", // Frontend URL
+  credentials: true, // Allow cookies to be sent
+};
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(cors({
-  credentials: true,
-  origin: ['http://localhost:3000']
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
