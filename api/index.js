@@ -7,10 +7,12 @@ import {
   photosByUser,
 } from "../handlers/photos";
 import { albums, albumByID, albumByUser, albumPhotos} from "../handlers/albums"
-import { login } from "../handlers/auth"
+import { login, user } from "../handlers/auth"
+import cookieParser from "cookie-parser"
 
 const app = express();
 
+app.use(cookieParser())
 app.use(cors());
 app.use(express.json());
 
@@ -19,6 +21,7 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 app.listen(3000, () => console.log("Server ready on port 3000."));
 
 app.post("/login", login)
+app.get("/user", user)
 
 app.get("/photos", photos);
 app.get("/photos/id=:id", photosByID);

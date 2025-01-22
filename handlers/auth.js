@@ -31,3 +31,11 @@ exports.login = async (req, res) => {
     res.status(500).json("Error");
   }
 };
+
+exports.user = async (req, res) => {
+  try {
+    const cookie = req.cookies["jwt"];
+    res.status(200).json(cookie);
+  } catch (error) {
+    res.status(500).json("Error");}
+};
