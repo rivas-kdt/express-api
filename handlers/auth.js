@@ -12,7 +12,7 @@ exports.login = async (req, res) => {
     const users = await sql`SELECT * FROM users WHERE email = ${email}`;
 
     if (users.length === 0) {
-      res.status(404).json(`No user ${email} found!`);
+      res.status(404).json("Password does not match!");
     }
 
     const user = users[0];
@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
       res.status(404).json("Password does not match!");
     }
 
-    const token = jwt.sign({ id: users.id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     res.status(200).json(token);
   } catch (error) {
     res.status(500).json("Error");
