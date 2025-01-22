@@ -2,7 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import "dotenv/config.js";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
-import multer from 'multer';
+import multer from "multer";
 
 const storage = multer.memoryStorage(); // Store file in memory or configure diskStorage if you need to store files locally
 const upload = multer({ storage: storage });
@@ -103,7 +103,7 @@ export const albumPhotos = async (req, res) => {
 };
 
 export const postAlbumPhoto = async (req, res) => {
-  upload.single("img");
+  upload.single("image");
   const albumId = req.params.id;
   const cookie = req.cookies["jwt"];
   const claims = jwt.verify(cookie, process.env.JWT_SECRET);
@@ -112,17 +112,20 @@ export const postAlbumPhoto = async (req, res) => {
   }
   const id = claims.id;
 
-  const img = req.file;
-  console.log(img)
-  const name =  "try"
+  const image = req.file;
+  if (!image) {
+    return res.status(400).json({ error: "Image file is required" });
+  }
+  const name = "try";
+  const imageName = `${id}_${image.originalname}`;
   const { title, description } = req.body;
 
-  const blob = await put(`photos/${id}/${name}`, img, {
+  const blob = await put(`photos/${id}/${imageName}`, img, {
     access: "public",
   });
   const result = await sql`
   INSERT INTO photos (user_id, title, description, file_url, original_filename, file_size, content_type)
-  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${name}, ${img.size}, ${img.mimetype})
+  VALUES (${id}, ${title}, ${description}, ${blob.url}, ${imageName}, ${img.size}, ${img.mimetype})
   RETURNING id, title, description, file_url, created_at
 `;
   await sql`
