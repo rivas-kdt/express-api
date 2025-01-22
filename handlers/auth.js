@@ -42,6 +42,9 @@ export const login = async (req, res) => {
 export const user = async (req, res) => {
   try {
     const cookie = req.cookies["jwt"];
+    if (!cookie) {
+      return res.status(401).json("Unauthorized, No Cookie");
+    }
     const claims = jwt.verify(cookie, process.env.JWT_SECRET);
     if (!claims) {
       res.status(401).json("Unauthenticated");
