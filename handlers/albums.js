@@ -104,6 +104,7 @@ export const albumPhotos = async (req, res) => {
 
 export const postAlbumPhoto = async (req, res) => {
   const albumId = req.params.id;
+  upload.single("file");
   const cookie = req.cookies["jwt"];
   const claims = jwt.verify(cookie, process.env.JWT_SECRET);
   if (!claims) {
@@ -113,7 +114,7 @@ export const postAlbumPhoto = async (req, res) => {
 
   const { file } = req;
   const { title, description } = req.body;
-  console.log(file)
+  console.log(file);
   const blob = await put(`photos/${id}/${file.originalname}`, file, {
     access: "public",
   });
