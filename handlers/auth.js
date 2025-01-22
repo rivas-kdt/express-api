@@ -7,21 +7,19 @@ const sql = neon(process.env.DATABASE_URL);
 
 exports.login = async (req, res) => {
   try {
-    const users =
-      await sql`SELECT * FROM users WHERE email = '${req.body.email}'`;
+    const email = req.body.email;
+    const password = req.body.password;
+    const users = await sql`SELECT * FROM users WHERE email = '${email}'`;
 
     if (users.length === 0) {
-        res.status(404).json("Password does not match!");
+      res.status(404).json("Password does not match!");
     }
 
     const user = users[0];
-    const passwordMatch = await bcrypt.compare(
-      req.body.password,
-      user.password_hash
-    );
+    const passwordMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!passwordMatch) {
-        res.status(404).json("Password does not match!");
+      res.status(404).json("Password does not match!");
     }
 
     const token = jwt.sign({ id: users.id }, process.env.JWT_SECRET);
