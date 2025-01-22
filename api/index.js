@@ -7,6 +7,7 @@ import {
   photosByUser,
 } from "../handlers/photos";
 import { albums, albumByID, albumByUser, albumPhotos} from "../handlers/albums"
+import { login } from "../handlers/auth"
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
+
+app.post("/login", login)
 
 app.get("/photos", photos);
 app.get("/photos/id=:id", photosByID);

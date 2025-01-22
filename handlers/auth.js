@@ -7,6 +7,8 @@ const sql = neon(process.env.DATABASE_URL);
 
 exports.login = async (req, res) => {
   try {
+    const email = req.body.email;
+    const password = req.body.password;
     const users = await sql`SELECT * FROM users WHERE email = ${email}`;
     if (users.length === 0) {
       return NextResponse.json(
@@ -25,7 +27,7 @@ exports.login = async (req, res) => {
       );
     }
 
-    const token = jwt.sign({id: users.id}, process.env.JWT_SECRET);
-    res.status(200).json(token)
+    const token = jwt.sign({ id: users.id }, process.env.JWT_SECRET);
+    res.status(200).json(token);
   } catch (error) {}
 };
