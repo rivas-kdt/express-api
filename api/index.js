@@ -37,7 +37,6 @@ app.get("/photo", async (req, res) => {
                a.title as album_title
         FROM photos p
         JOIN albums a ON p.album_id = a.id
-        WHERE p.id
         `;
   
       if (!photos) {
