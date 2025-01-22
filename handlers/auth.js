@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
       res.status(404).json("Password does not match!");
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.cookie("jwt", token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
@@ -40,7 +40,7 @@ exports.user = async (req, res) => {
       res.status(401).json("Unauthenticated");
     }
     const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
-    res.status(200).json(claims);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json("Error");
   }
