@@ -41,7 +41,7 @@ export const user = async (req, res) => {
       res.status(401).json("Unauthenticated");
     }
     const user = await sql`SELECT * FROM users WHERE id=${claims.id}`;
-    const { password_hash, ...data } = user
+    const { password_hash, ...data } = user[0]
     res.status(200).json(data || user);
   } catch (error) {
     res.status(500).json("Error");
