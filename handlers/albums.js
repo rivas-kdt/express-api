@@ -2,6 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import "dotenv/config.js";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
+import { multer } from "multer";
 
 const storage = multer.memoryStorage(); // Store file in memory or configure diskStorage if you need to store files locally
 const upload = multer({ storage: storage });
@@ -102,7 +103,7 @@ export const albumPhotos = async (req, res) => {
 };
 
 export const postAlbumPhoto = async (req, res) => {
-    upload.single("file");
+  upload.single("file");
   const albumId = req.params.id;
   const cookie = req.cookies["jwt"];
   const claims = jwt.verify(cookie, process.env.JWT_SECRET);
