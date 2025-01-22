@@ -28,7 +28,7 @@ export const login = async (req, res) => {
       expiresIn: "1h",
     });
     res.cookie("jwt", token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
-    res.status(200).json("Success!");
+    res.status(200).json(token);
   } catch (error) {
     res.status(500).json("Error");
   }
