@@ -9,7 +9,7 @@ exports.login = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    const users = await sql`SELECT * FROM users WHERE email = ${email}`;
+    const users = await sql`SELECT * FROM users WHERE email = '${email}'`;
     if (users.length === 0) {
       return NextResponse.json(
         { error: "Invalid credentials" },
@@ -30,6 +30,6 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: users.id }, process.env.JWT_SECRET);
     res.status(200).json(token);
   } catch (error) {
-    res.status(404).json("Error")
+    res.status(500).json("Error");
   }
 };
