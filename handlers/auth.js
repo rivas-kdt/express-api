@@ -31,7 +31,7 @@ export const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "None",
     });
-    const { password_hash, ...data } = user[0];
+    const { password_hash, ...data } = user;
     res.status(200).json(data || user);
   } catch (error) {
     res.status(500).json("Error");
