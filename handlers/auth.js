@@ -5,6 +5,45 @@ import "dotenv/config";
 
 const sql = neon(process.env.DATABASE_URL);
 
+export const register = async (req, res) => {
+  try {
+    const { email, password, username, full_name } = req.body;
+
+    if (!email || !password || !username || !full_name) {
+      return res.status(400).json("All fields are required");
+    }
+
+    const existingUser = await sql`SELECT * FROM users WHERE email = ${email}`;
+    if (existingUser.length > 0) {
+      return res.status(400).json("Email already exists");
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const [newUser] = await sql`
+      INSERT INTO users (email, password_hash, username, full_name)
+      VALUES (${email}, ${passwordHash}, ${username}, ${full_name})
+      RETURNING id, email, username, full_name
+    `;
+
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("jwt", token, {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    });
+
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json("Error");
+  }
+};
+
 export const login = async (req, res) => {
   try {
     const email = req.body.email;

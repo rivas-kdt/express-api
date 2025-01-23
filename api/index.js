@@ -13,7 +13,7 @@ import {
   albumPhotos,
   postAlbumPhoto,
 } from "../handlers/albums.js";
-import { login, logout, user } from "../handlers/auth.js";
+import { login, logout, register, user } from "../handlers/auth.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -30,21 +30,22 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(5000, () => console.log("Server ready on http://localhost:5000."));
 
-app.post("/login", login);
-app.post("/logout", logout);
-app.get("/user", user);
+app.post("/auth/register", register);
+app.post("/auth/login", login);
+app.post("/auth/logout", logout);
+app.get("/auth/user", user);
 
-app.get("/photos", photos);
-app.get("/photos/id=:id", photosByID);
-app.get("/photos/album=:id", photosByAlbum);
-app.get("/photos/user=:id", photosByUser);
+app.get("/api/photos", photos);
+app.get("/api/photos/id=:id", photosByID);
+app.get("/api/photos/album=:id", photosByAlbum);
+app.get("/api/photos/user=:id", photosByUser);
 
 app.post("/try/id=:id", postAlbumPhoto);
 
-app.get("/albums", albums);
-app.get("/albums/id=:id", albumByID);
-app.get("/albums/user", albumByUser);
-app.get("/albumsp/id=:id", albumPhotos);
+app.get("/api/albums", albums);
+app.get("/api/albums/id=:id", albumByID);
+app.get("/api/albums/user", albumByUser);
+app.get("/api/albumsp/id=:id", albumPhotos);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
