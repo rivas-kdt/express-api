@@ -29,7 +29,7 @@ export const albumByID = async (req, res) => {
     if (!albums) {
       return res.status(404).json({ error: "Album not found" });
     }
-    res.status(200).json(albums);
+    res.status(200).json(albums[0]);
   } catch (error) {
     console.error("Error Fetching Album");
     res.status(500).json({ error: "Error Fetching Album" });
