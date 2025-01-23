@@ -18,7 +18,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-  origin: "https://neon-photo-ad.vercel.app", // Frontend URL
+  origin: ["https://neon-photo-ad.vercel.app", "https://triptos.vercel.app", "https://localhost:3000"], // Frontend URL
   credentials: true, // Allow cookies to be sent
 };
 
