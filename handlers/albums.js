@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import multer from "multer";
-import 'dotenv/config'
+import "dotenv/config";
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
 
@@ -38,8 +38,13 @@ export const albumByID = async (req, res) => {
 
 export const albumByUser = async (req, res) => {
   try {
-    const albums =
-      await sql`SELECT * FROM albums WHERE user_id = ${req.params.id}`;
+    const cookie = req.cookies["jwt"];
+    const claims = jwt.verify(cookie, process.env.JWT_SECRET);
+    if (!claims) {
+      res.status(401).json("Unauthenticated");
+    }
+    const id = claims.id;
+    const albums = await sql`SELECT * FROM albums WHERE user_id = ${id}`;
 
     if (!albums) {
       return res.status(404).json({ error: "User's Albums Not Found" });

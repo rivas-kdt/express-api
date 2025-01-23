@@ -43,7 +43,7 @@ app.post("/try/id=:id", postAlbumPhoto);
 
 app.get("/albums", albums);
 app.get("/albums/id=:id", albumByID);
-app.get("/albums/user=:id", albumByUser);
+app.get("/albums/user", albumByUser);
 app.get("/albumsp/id=:id", albumPhotos);
 
 app.use((err, req, res, next) => {
