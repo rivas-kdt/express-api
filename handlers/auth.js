@@ -1,7 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import 'dotenv/config'
+import "dotenv/config";
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -31,7 +31,8 @@ export const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "None",
     });
-    res.status(200).json("Success!");
+    const { password_hash, ...data } = user[0];
+    res.status(200).json(data || user);
   } catch (error) {
     res.status(500).json("Error");
   }
