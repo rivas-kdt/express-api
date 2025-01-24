@@ -26,21 +26,7 @@ export const register = async (req, res) => {
       RETURNING id
     `;
 
-    const users = await sql`SELECT * FROM users WHERE id = ${newUser.id}`;
-    const user = users[0];
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.cookie("jwt", token, {
-      maxAge: 60 * 60 * 1000,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
-    });
-
-    const { password_hash, ...data } = user;
-    res.status(201).json(data || user);
+    res.status(201).json("Success!");
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json("Error");
