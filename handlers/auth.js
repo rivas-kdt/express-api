@@ -23,13 +23,15 @@ export const register = async (req, res) => {
     const [newUser] = await sql`
       INSERT INTO users (email, password_hash, username, full_name)
       VALUES (${email}, ${passwordHash}, ${username}, ${full_name})
-      RETURNING id, email, username, full_name
+      RETURNING id
     `;
 
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+    const users = await sql`SELECT * FROM users WHERE id = ${newUser.id}`;
+    const user = users[0];
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
@@ -37,7 +39,8 @@ export const register = async (req, res) => {
       sameSite: "None",
     });
 
-    res.status(201).json(newUser);
+    const { password_hash, ...data } = user;
+    res.status(201).json(data || user);
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json("Error");
