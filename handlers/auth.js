@@ -56,6 +56,7 @@ export const login = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
+      domain: "https://triptos.vercel.app/",
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "Lax",
     });
@@ -89,6 +90,7 @@ export const logout = async (req, res) => {
     res.cookie("jwt", "", {
       maxAge: 0,
       httpOnly: true,
+      domain: "https://triptos.vercel.app/",
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "Lax",
     });
