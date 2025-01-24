@@ -16,6 +16,9 @@ import {
 import { login, logout, register, user } from "../handlers/auth.js";
 import cookieParser from "cookie-parser";
 
+import { feedAlbums, fullAlbums } from "../handlers/album.js";
+import { feedPhotos } from "../handlers/photo.js";
+
 const app = express();
 const corsOptions = {
   origin: ["https://neon-photo-ad.vercel.app", "https://triptos.vercel.app", "http://localhost:3000"], // Frontend URL
@@ -46,6 +49,12 @@ app.get("/api/albums", albums);
 app.get("/api/albums/id=:id", albumByID);
 app.get("/api/albums/user", albumByUser);
 app.get("/api/albumsp/id=:id", albumPhotos);
+
+app.get("/v2/api/albums", feedAlbums)
+app.get("/v2/api/album?id=:id", fullAlbums)
+app.get("/v2/api/user/albums", albumByUser)
+
+app.get("v2/api/photos", feedPhotos)
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
