@@ -55,7 +55,7 @@ export const login = async (req, res) => {
     });
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
-      httpOnly: true,
+      // httpOnly: true,
       domain: process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "none",
@@ -89,7 +89,7 @@ export const logout = async (req, res) => {
   try {
     res.cookie("jwt", "", {
       maxAge: 0,
-      httpOnly: true,
+      // httpOnly: true,
       domain: process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       secure: process.env.NODE_ENV === "production", // Set cookie to be sent only over HTTPS in production
       sameSite: "none",
