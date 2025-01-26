@@ -44,7 +44,8 @@ export const albumByUser = async (req, res) => {
       res.status(401).json("Unauthenticated");
     }
     const id = claims.id;
-    const albums = await sql`SELECT * FROM albums WHERE user_id = ${id}`;
+    let albums = [];
+    albums = await sql`SELECT * FROM albums WHERE user_id = ${id}`;
     res.status(200).json(albums);
   } catch (error) {
     console.error("Error Fetching User's Albums");
