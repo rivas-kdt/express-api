@@ -45,10 +45,6 @@ export const albumByUser = async (req, res) => {
     }
     const id = claims.id;
     const albums = await sql`SELECT * FROM albums WHERE user_id = ${id}`;
-
-    if (!albums) {
-      return res.status(404).json({ error: "User's Albums Not Found" });
-    }
     res.status(200).json(albums);
   } catch (error) {
     console.error("Error Fetching User's Albums");
