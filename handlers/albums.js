@@ -38,7 +38,7 @@ export const albumByID = async (req, res) => {
 
 export const albumByUser = async (req, res) => {
   try {
-    const cookie = req.cookies["jwt"];
+    const cookie = req.cookies["session"];
     const claims = jwt.verify(cookie, process.env.JWT_SECRET);
     if (!claims) {
       res.status(401).json("Unauthenticated");
