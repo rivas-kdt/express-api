@@ -56,8 +56,7 @@ export const login = async (req, res) => {
     });
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "None",
     });
     const { password_hash, ...data } = user;
     res.status(200).json(data || user);
