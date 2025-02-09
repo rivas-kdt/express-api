@@ -21,7 +21,7 @@ import { feedPhotos } from "../handlers/photo.js";
 
 const app = express();
 const corsOptions = {
-  origin: ["https://neon-photo-ad.vercel.app", "https://triptos.vercel.app", "http://localhost:3000"], // Frontend URL
+  origin: ["https://neon-photo-ad.vercel.app", "https://triptos.vercel.app", "http://localhost:3000", "http://localhost:5173"], // Frontend URL
   credentials: true, // Allow cookies to be sent
 };
 
