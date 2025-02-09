@@ -56,7 +56,9 @@ export const login = async (req, res) => {
     });
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
-      sameSite: "None",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
     });
     const { password_hash, ...data } = user;
     res.status(200).json(data || user);
