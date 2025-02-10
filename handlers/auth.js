@@ -61,7 +61,9 @@ export const login = async (req, res) => {
       res.status(404).json("Password does not match!");
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    const { password_hash, ...data } = user;
+
+    const token = jwt.sign({ user: data }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.cookie("jwt", token, {
@@ -70,8 +72,7 @@ export const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
     });
-    const { password_hash, ...data } = user;
-    res.status(200).json({ token, user: data });
+    res.status(200).json(token);
   } catch (error) {
     res.status(500).json("Error");
   }
