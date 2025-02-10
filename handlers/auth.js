@@ -71,7 +71,7 @@ export const login = async (req, res) => {
       sameSite: "Lax",
     });
     const { password_hash, ...data } = user;
-    res.status(200).json(token);
+    res.status(200).json({ token, user: data });
   } catch (error) {
     res.status(500).json("Error");
   }
