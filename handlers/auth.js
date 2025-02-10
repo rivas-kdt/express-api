@@ -114,10 +114,10 @@ export const verify = async (req, res) => {
     const token = req.body.token;
     const claims = jwt.verify(token, process.env.JWT_SECRET);
     if (!claims) {
-      res.status(401).json("Unauthenticated");
+      res.status(401).json({ valid: false });
     }
     res.status(200).json({ valid: true, claims });
   } catch (error) {
-    res.status(401).json("Unauthenticated");
+    res.status(401).json({ valid: false });
   }
 };
