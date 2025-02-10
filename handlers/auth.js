@@ -37,7 +37,7 @@ export const register = async (req, res) => {
       sameSite: "Lax",
     });
 
-    res.status(201).json("Success!");
+    res.status(201).json(token);
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json("Error");
