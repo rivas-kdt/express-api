@@ -37,7 +37,7 @@ app.post("/auth/register", register);
 app.post("/auth/login", login);
 app.post("/auth/logout", logout);
 app.get("/auth/user", user);
-app.get("/auth/verify", verify);
+app.post("/auth/verify", verify);
 
 app.get("/api/photos", photos);
 app.get("/api/photos/id=:id", photosByID);
