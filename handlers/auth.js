@@ -27,6 +27,16 @@ export const register = async (req, res) => {
       RETURNING id
     `;
 
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.cookie("jwt", token, {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+    });
+
     res.status(201).json("Success!");
   } catch (error) {
     console.error("Registration error:", error);
