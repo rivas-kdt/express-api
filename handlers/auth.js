@@ -118,6 +118,6 @@ export const verify = async (req, res) => {
     }
     res.status(200).json({ valid: true, claims });
   } catch (error) {
-    res.status(401).json({ valid: false });
+    res.status(200).json({ valid: false });
   }
 };
