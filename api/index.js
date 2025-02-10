@@ -13,7 +13,7 @@ import {
   albumPhotos,
   postAlbumPhoto,
 } from "../handlers/albums.js";
-import { login, logout, register, user } from "../handlers/auth.js";
+import { login, logout, register, user, verify } from "../handlers/auth.js";
 import cookieParser from "cookie-parser";
 
 import { feedAlbums, fullAlbums } from "../handlers/album.js";
@@ -37,6 +37,7 @@ app.post("/auth/register", register);
 app.post("/auth/login", login);
 app.post("/auth/logout", logout);
 app.get("/auth/user", user);
+app.get("/auth/verify", verify);
 
 app.get("/api/photos", photos);
 app.get("/api/photos/id=:id", photosByID);
