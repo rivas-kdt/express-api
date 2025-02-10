@@ -117,7 +117,8 @@ export const verify = async (req, res) => {
     if (!claims) {
       res.status(200).json({ valid: false });
     }
-    res.status(200).json({ valid: true, claims });
+    const user = claims.user;
+    res.status(200).json({ valid: true, user });
   } catch (error) {
     res.status(200).json({ valid: false });
   }
